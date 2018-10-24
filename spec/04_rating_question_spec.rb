@@ -8,32 +8,18 @@ RSpec.describe Surveyor::RatingQuestion do
   end
 
   context 'valid_answer?' do
-    it "true when 1" do
-      expect(subject.valid_answer?(1)).to eq(true)
+    it "is valid when rating is between 1 and 5" do
+      (1..5).each do |rating|
+        expect(subject.valid_answer?(rating)).to be true
+      end
     end
 
-    it "true when 2" do
-      expect(subject.valid_answer?(2)).to eq(true)
+    it "is invalid when rating is 6" do
+      expect(subject.valid_answer?(6)).to be false
     end
 
-    it "true when 3" do
-      expect(subject.valid_answer?(3)).to eq(true)
-    end
-
-    it "true when 4" do
-      expect(subject.valid_answer?(4)).to eq(true)
-    end
-
-    it "true when 5" do
-      expect(subject.valid_answer?(5)).to eq(true)
-    end
-
-    it "false when 6" do
-      expect(subject.valid_answer?(6)).to eq(false)
-    end
-
-    it "false when -1" do
-      expect(subject.valid_answer?(-1)).to eq(false)
+    it "is invalid when rating is -1" do
+      expect(subject.valid_answer?(-1)).to be false
     end
   end
 end

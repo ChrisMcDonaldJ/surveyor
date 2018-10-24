@@ -5,8 +5,8 @@ require "surveyor/version"
 Gem::Specification.new do |spec|
   spec.name          = "surveyor"
   spec.version       = Surveyor::VERSION
-  spec.authors       = ["Ryan Bigg"]
-  spec.email         = ["ryanbigg@cultureamp.com"]
+  spec.authors       = ["Christopher McDonald"]
+  spec.email         = ["chris.mcdonald.j@gmail.com"]
 
   spec.summary       = "Culture Amp Junior Engineering Program Coding Test"
 
