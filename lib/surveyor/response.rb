@@ -12,5 +12,9 @@ module Surveyor
 
       answers.push(answer)
     end
+
+    def answer_for_question(question)
+      answers.find { |answer| answer.question == question }
+    end
   end
 end

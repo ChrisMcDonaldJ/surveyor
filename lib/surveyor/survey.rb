@@ -17,7 +17,7 @@ module Surveyor
     end
 
     def find_response(email)
-      responses.find { |item| item.email == email }
+      responses.find { |response| response.email == email }
     end
 
     def user_responded?(email)
@@ -25,8 +25,8 @@ module Surveyor
     end
 
     def answer_breakdown(question)
-      results = responses.flat_map(&:answers)
-        .select { |item| item.question == question }
+      results = responses
+        .map { |response| response.answer_for_question(question) }
         .group_by(&:value)
         .map { |rating, answers| [rating, answers.count] }
         .to_h
