@@ -33,5 +33,16 @@ module Surveyor
 
       { 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0 }.merge(results)
     end
+
+    def answer_breakdown_by_tags(question, tags)
+      result = responses
+        .select { |response| response.contains_tags?(tags) }
+        .map { |response| response.answer_for_question(question) }
+        .group_by(&:value)
+        .map { |rating, answers| [rating, answers.count] }
+        .to_h
+
+      { 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0 }.merge(result)
+    end
   end
 end

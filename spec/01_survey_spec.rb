@@ -1,8 +1,8 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Surveyor::Survey do
   subject { described_class.new(name: "Engagement Survey") }
-  let(:response) { Surveyor::Response.new(email: "chris.mcdonald.j@gmail.com") }
+  let(:response) { Surveyor::Response.new(email: "chris.mcdonald.j@gmail.com", tags: %w[Technology LGBT Male]) }
   let(:sample_question) { Surveyor::RatingQuestion.new(title: "How would you rate your experience") }
 
   it "has a name" do
@@ -42,6 +42,30 @@ RSpec.describe Surveyor::Survey do
   context "answer_breakdown" do
     let(:response_alternative) { Surveyor::Response.new(email: "cmcd0003@student.monash.edu") }
     let(:answer_1) { Surveyor::Answer.new(question: sample_question, value: 1) }
+    let(:answer_5) { Surveyor::Answer.new(question: sample_question, value: 1) }
+
+    before do
+      response.add_answer(answer_1)
+      response_alternative.add_answer(answer_5)
+
+      subject.add_response(response)
+      subject.add_response(response_alternative)
+    end
+
+    it "returns a breakdown of a rating question" do
+      expect(subject.answer_breakdown(sample_question)).to eq(
+        1 => 2,
+        2 => 0,
+        3 => 0,
+        4 => 0,
+        5 => 0,
+      )
+    end
+  end
+
+  context "answer_breakdown_by_tags" do
+    let(:response_alternative) { Surveyor::Response.new(email: "cmcd0003@student.monash.edu", tags: %w[Contractor Student]) }
+    let(:answer_1) { Surveyor::Answer.new(question: sample_question, value: 1) }
     let(:answer_5) { Surveyor::Answer.new(question: sample_question, value: 5) }
 
     before do
@@ -52,13 +76,13 @@ RSpec.describe Surveyor::Survey do
       subject.add_response(response_alternative)
     end
 
-    it 'returns a breakdown of a rating question' do
-      expect(subject.answer_breakdown(sample_question)).to eq(
+    it "returns a breakdown of a rating question" do
+      expect(subject.answer_breakdown_by_tags(sample_question, ["Technology"])).to eq(
         1 => 1,
         2 => 0,
         3 => 0,
         4 => 0,
-        5 => 1,
+        5 => 0,
       )
     end
   end
