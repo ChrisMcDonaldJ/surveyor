@@ -1,5 +1,5 @@
-# Coding Challenge
-### Surveyor Gem
+# Surveyor Gem
+### Coding Challenge
 
 A Gem which helps represent survey data within Ruby.
 
